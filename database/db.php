@@ -1,6 +1,6 @@
 <?php
 
-include_once("../utils.php")
+include_once("../utils.php");
 
 $db = new mysqli("localhost", "root", "", "locations");
 
