@@ -10,9 +10,11 @@ if(!(isset($_POST["username"]) && isset($_POST["password"]))) {
     die();
 }
 
+$passwordHash = password_hash($_POST["password"], PASSWORD_DEFAULT);
+
 //controllo credenziali
-$stmt = $db->prepare("SELECT * FROM utenti WHERE username = ? AND password = ?");
-$stmt->bind_param("ss", $_POST["username"], password_hash($_POST["password"]));
+$stmt = $db->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
+$stmt->bind_param("ss", $_POST["username"], $passwordHash);
 
 if(!$stmt->execute()) {
     json_response(500, ["error" => "Server error, retry later"]);
@@ -29,6 +31,6 @@ if($result->num_rows == 0) {
 $result = $result->fetch_assoc();
 
 $_SESSION["authenticated"] = true;
-$_SESSION["id"] = $result["id"];
+$_SESSION["user_id"] = $result["user_id"];
 $_SESSION["username"] = $result["username"];
-$_SESSION["privileges"] = $result["privileges"];
+$_SESSION["role"] = $result["role"];
