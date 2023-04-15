@@ -9,7 +9,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="./js/login.js" defer></script>
+    <script src="./js/index.js" defer></script>
 
     <title>SignUp | MieiLuighi.com</title>
 </head>
@@ -28,7 +28,7 @@ session_start();
         
         <span id="error_message" class="text-red-500 font-semibold"></span>
 
-        <input type="submit" value="SignUp" class="bg-red-500 hover:bg-red-600 focus:bg-red-600 focus:outline-0 rounded-md self-stretch mt-6 p-2 text-white font-semibold">
+        <input type="submit" id="submit_button" value="SignUp" class="bg-red-500 disabled:bg-red-300 hover:bg-red-600 focus:bg-red-600 focus:outline-0 rounded-md self-stretch mt-6 p-2 text-white font-semibold" disabled>
         <div class="self-center mt-2"><span class="text-sm mr-2 font-medium">Already have an account?</span><a href="../signin" class="text-sm text-red-500 font-semibold">Login</a></div>
     </form>
 </body>
