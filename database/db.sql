@@ -1,21 +1,22 @@
 CREATE DATABASE IF NOT EXISTS `locations`;
 USE `locations`;
 
-CREATE TABLE `utenti` (
-    `id_utente` INT AUTO_INCREMENT NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+    `user_id` INT AUTO_INCREMENT NOT NULL,
     `username` VARCHAR(16) NOT NULL,
-    `password` VARCHAR(16) NOT NULL,
-    `privileges` ,
-    PRIMARY KEY (`id_utente`)
+    `password` VARCHAR(255) NOT NULL,
+    `role` ENUM('user', 'admin'),
+    PRIMARY KEY (`user_id`),
+    UNIQUE KEY (`username`)
 );
 
-CREATE TABLE `locations` (
-    `id_location` INT AUTO_INCREMENT NOT NULL,
-    `id_utente` INT NOT NULL,
-    `nome` VARCHAR(16) NOT NULL,
+CREATE TABLE IF NOT EXISTS `locations` (
+    `location_id` INT AUTO_INCREMENT NOT NULL,
+    `user_id` INT NOT NULL,
+    `name` VARCHAR(64) NOT NULL,
     `lat` FLOAT NOT NULL,
     `lng` FLOAT NOT NULL,
     `public` TINYINT(1) NOT NULL,
-    PRIMARY KEY (`id_location`),
-    FOREIGN KEY (`id_utente`) REFERENCES `utenti`(`id_utente`)
+    PRIMARY KEY (`location_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`)
 );
