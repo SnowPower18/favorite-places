@@ -18,7 +18,7 @@ async function login(e) {
   res = await res.json();
 
   //if no credentials or invalid
-  if (status == 401) {
+  if (status == 401 || status == 500) {
     errorMessageElem.classList.remove("hidden");
     errorMessageElem.textContent = res.error;
   }
