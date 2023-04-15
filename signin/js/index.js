@@ -2,6 +2,7 @@ const form = document.querySelector("#form");
 const errorMessageElem = document.querySelector("#error_message");
 const usernameInput = document.querySelector("#username_input");
 const passwordInput = document.querySelector("#password_input");
+const submitButton = document.querySelector("#submit_button");
 
 async function login(e) {
   e.preventDefault();
@@ -24,6 +25,14 @@ async function login(e) {
   }
 }
 
+function formValidation() {
+  if (usernameInput.value === "" || passwordInput.value === "") {
+    submitButton.setAttribute("disabled", "");
+  } else {
+    submitButton.removeAttribute("disabled");
+  }
+}
+
 function resetLoginError() {
   errorMessageElem.classList.add("hidden");
   errorMessageElem.textContent = "";
@@ -32,3 +41,5 @@ function resetLoginError() {
 form.addEventListener("submit", login);
 usernameInput.addEventListener("input", resetLoginError);
 passwordInput.addEventListener("input", resetLoginError);
+usernameInput.addEventListener("input", formValidation);
+passwordInput.addEventListener("input", formValidation);

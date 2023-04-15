@@ -5,7 +5,7 @@ const passwordInput = document.querySelector("#password_input");
 const checkPasswordInput = document.querySelector("#confirm_password_input");
 const submitButton = document.querySelector("#submit_button");
 
-async function login(e) {
+async function register(e) {
   e.preventDefault();
 
   //get values from the form
@@ -33,20 +33,22 @@ async function login(e) {
 
 function formValidation() {
   const filledOut =
-    usernameInput !== "" && passwordInput !== "" && checkPasswordInput !== "";
+    usernameInput.value !== "" &&
+    passwordInput.value !== "" &&
+    checkPasswordInput.value !== "";
   const passwordsMatch =
-    passwordInput.value === checkPasswordInput.value && passwordInput != "";
+    passwordInput.value === checkPasswordInput.value && passwordInput !== "";
 
-  if (!filledOut || !passwordsMatch) {
-    submitButton.setAttribute("disabled", "");
-  } else {
+  if (filledOut && passwordsMatch) {
     submitButton.removeAttribute("disabled");
+  } else {
+    submitButton.setAttribute("disabled", "");
   }
 
   if (
     passwordInput.value !== "" &&
     checkPasswordInput.value !== "" &&
-    passwordsMatch
+    !passwordsMatch
   ) {
     showPasswordError();
   } else {
@@ -64,7 +66,7 @@ function hidePasswordError() {
   errorMessageElem.textContent = "";
 }
 
-form.addEventListener("submit", login);
+form.addEventListener("submit", register);
 usernameInput.addEventListener("input", formValidation);
 passwordInput.addEventListener("input", formValidation);
 checkPasswordInput.addEventListener("input", formValidation);

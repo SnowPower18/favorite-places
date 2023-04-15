@@ -29,7 +29,7 @@ session_start();
         <span id="error_message" class="text-red-500 font-semibold"></span>
 
         <input type="submit" id="submit_button" value="SignUp" class="bg-red-500 disabled:bg-red-300 hover:bg-red-600 focus:bg-red-600 focus:outline-0 rounded-md self-stretch mt-6 p-2 text-white font-semibold" disabled>
-        <div class="self-center mt-2"><span class="text-sm mr-2 font-medium">Already have an account?</span><a href="../signin" class="text-sm text-red-500 font-semibold">Login</a></div>
+        <div class="self-center mt-2"><span class="text-sm mr-2 font-medium">Already have an account?</span><a href="../signin" class="text-sm text-red-500 hover:text-red-600 focus:text-red-600 font-semibold">Login</a></div>
     </form>
 </body>
 </html>
