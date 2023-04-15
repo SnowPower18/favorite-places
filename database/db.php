@@ -1,12 +1,8 @@
 <?php
 
 include_once("../utils.php");
-
-$db = new mysqli("localhost", "root", "", "locations");
-
-if ($db -> connect_errno) {
+try {
+    $db = new mysqli("localhost", "root", "", "locations");
+} catch(Exception $e) {
     json_response(500, ["error" => "Server error, try later"]);
-    // DEBUG ONLY
-    // echo "Failed to connect to MySQL: " . $db -> connect_error;
-    // exit();
 }
