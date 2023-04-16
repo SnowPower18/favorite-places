@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `user_id` INT AUTO_INCREMENT NOT NULL,
     `username` VARCHAR(16) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
-    `role` ENUM('user', 'admin'),
+    `role` ENUM('user', 'admin') DEFAULT 'user',
     PRIMARY KEY (`user_id`),
     UNIQUE KEY (`username`)
 );
