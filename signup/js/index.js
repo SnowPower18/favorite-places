@@ -12,11 +12,11 @@ async function register(e) {
   const data = new FormData(form);
 
   //prevent sign up if passwords do not match
-  if (passwordInput !== checkPasswordInput) {
+  if (passwordInput.value !== checkPasswordInput.value) {
     return;
   }
 
-  let res = await fetch("./auth.php", {
+  let res = await fetch("./register.php", {
     method: "POST",
     body: data
   });
@@ -24,10 +24,12 @@ async function register(e) {
   const status = res.status;
   res = await res.json();
 
-  //if no credentials or invalid
-  if (status == 401 || status == 500) {
+  //if no credentials or already existing user
+  if (status == 400 || status == 409 || status == 500) {
     errorMessageElem.classList.remove("hidden");
     errorMessageElem.textContent = res.error;
+  } else {
+    window.location.href = "../index.php";
   }
 }
 

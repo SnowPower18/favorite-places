@@ -18,7 +18,7 @@ session_start();
         <h1 class="text-4xl font-semibold mb-8 self-center">SignUp</h1>
         
         <label for="username_input" class="block font-medium">Username</label>
-        <input type="text" id="username_input" name="password" class="block p-1 mb-2 focus:outline-0 focus:ring-2 focus:ring-red-500/75 focus:border-transparent rounded border border-black ">
+        <input type="text" id="username_input" name="username" class="block p-1 mb-2 focus:outline-0 focus:ring-2 focus:ring-red-500/75 focus:border-transparent rounded border border-black ">
         
         <label for="password_input" class="block font-medium">Password</label>
         <input type="password" id="password_input" name="password" class="block p-1 mb-2 focus:outline-0 focus:ring-2 focus:ring-red-500/75 focus:border-transparent rounded border border-black ">

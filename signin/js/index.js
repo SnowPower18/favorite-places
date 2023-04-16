@@ -22,6 +22,8 @@ async function login(e) {
   if (status == 401 || status == 500) {
     errorMessageElem.classList.remove("hidden");
     errorMessageElem.textContent = res.error;
+  } else {
+    window.location.href = "../index.php";
   }
 }
 
