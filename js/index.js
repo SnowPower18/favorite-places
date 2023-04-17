@@ -5,8 +5,11 @@ const { Marker } = await google.maps.importLibrary("marker");
 let map;
 let markers = [];
 let locations;
-const locationEntry = document.querySelector(
-  "#location_entry_template"
+const publicLocationEntry = document.querySelector(
+  "#public_location_entry_template"
+).firstElementChild;
+const privateLocationEntry = document.querySelector(
+  "#private_location_entry_template"
 ).firstElementChild;
 const showIcon = document.querySelector(
   "#show_icon_template"
@@ -22,13 +25,31 @@ async function initMap() {
 
   // get random starting location from the fetched ones
   let randomLocation;
+  let startingZoom = 5;
   if (authenticated) {
-    randomLocation =
-      locations.privateLocations[
-        Math.floor(Math.random() * locations.privateLocations.length)
-      ];
+    // random starting public if private ones don't exist
+    if (locations.privateLocations.length !== 0) {
+      randomLocation =
+        locations.privateLocations[
+          Math.floor(Math.random() * locations.privateLocations.length)
+        ];
+    } else if (locations.publicLocations.length !== 0) {
+      randomLocation =
+        locations.publicLocations[
+          Math.floor(Math.random() * locations.publicLocations.length)
+        ];
+    } else {
+      randomLocation = { lat: 0, lng: 0 };
+      startingZoom = 2;
+    }
   } else {
-    randomLocation = locations[Math.floor(Math.random() * locations.length)];
+    // random starting location if public ones don't exist
+    if (locations.length) {
+      randomLocation = locations[Math.floor(Math.random() * locations.length)];
+    } else {
+      randomLocation = { lat: 0, lng: 0 };
+      startingZoom = 2;
+    }
   }
 
   let startLocation = {
@@ -39,7 +60,7 @@ async function initMap() {
   // Short namespaces can be used.
   map = new Map(document.getElementById("map"), {
     center: startLocation,
-    zoom: 5
+    zoom: startingZoom
   });
 
   if (authenticated) {
@@ -86,5 +107,9 @@ function createLocationEntry() {
   if (authenticated) {
   }
 }
+
+function collapsePublicList() {}
+
+function collapsePrivateList() {}
 
 function collapseAccordion(e) {}

@@ -42,7 +42,7 @@ session_start();
     </nav>
     <div class="grow grid grid-cols-4 lg:grid-cols-5">
         <div id="map" class="col-span-3 lg:col-span-4"></div>
-        <div class="bg-red-500 flex flex-col">
+        <aside class="bg-red-500 flex flex-col">
             <?php if (isset($_SESSION["authenticated"])):?>
                 
                 <section class="bg-red-700 pt-3 px-4 pb-5 rounded-b-lg">
@@ -55,78 +55,77 @@ session_start();
             </section>
 
             <!-- accordion-like menu -->
-            
-            <section class="flex flex-col space-y-2 p-2" id="private-locations">
-                <h2 class="text-white text-xl font-bold">Saved location</h2>
-                <div class="h8 bg-white flex justify-between p-3 rounded-md">
-                    <div class="flex space-x-1 items-center">
-                        <button class="aspect-square rounded-sm grid place-content-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
-                            </svg>
-                        </button>
-                        <span class="text-md font-semibold">Nome</span>
+            <div class="grid">
+                <section class="flex flex-grow flex-col space-y-2 p-2 overflow-y-auto" id="private-locations">
+                    <h2 class="text-white text-xl font-bold sticky">Saved location</h2>
+                    <div id="private_locations_list"></div>
+                    
+                    <div class="h8 bg-white flex justify-between p-3 rounded-md">
+                        <div class="flex space-x-1 items-center">
+                            <button class="aspect-square rounded-sm grid place-content-center">
+                                </button>
+                                <span  class="text-md font-semibold"></span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="aspect-square h-6 bg-red-500/ rounded-sm grid place-content-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                </svg>
+                            </button>
+                            <button  class="delete_button aspect-square h-6 bg-red-500/50 rounded-sm grid place-content-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                    <div class="flex space-x-2">
-                        <button class="aspect-square h-6 bg-red-500/25 rounded-sm grid place-content-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+
+                </section>
+                <!-- accordion-like menu -->
+                <section class="flex flex-col space-y-2 p-2" id="public-locations">
+                    <h2 class="text-white text-xl font-bold">Public location</h2>
+                    <div id="public_locations_list">
+                        <div class="h8 bg-blue-300/50 flex justify-between p-4 rounded-md">
+                            <span class="text-md font-bold">Nome</span>
+                            <button class="aspect-square h-6 bg-red-500/25">x</button>
+                        </div>                        
                     </div>
-                </div>
-                <div class="h8 bg-white flex justify-between p-3 rounded-md">
-                    <div class="flex space-x-1 items-center">
-                        <button class="aspect-square rounded-sm grid place-content-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </button>
-                        <span class="text-md font-semibold">Nome</span>
-                    </div>
-                    <div class="flex space-x-2">
-                        <button class="aspect-square h-6 bg-red-500/25 rounded-sm grid place-content-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+                </section>
+            </div>
 
-            </section>
-
-            <!-- accordion-like menu -->
-            <section class="flex flex-col space-y-2 p-2" id="public-locations">
-                <h2 class="text-white text-xl font-bold">Public location</h2>
-                <div class="h8 bg-blue-300/50 flex justify-between p-4 rounded-md">
-                    <span class="text-md font-bold">Nome</span>
-                    <button class="aspect-square h-6 bg-red-500/25">x</button>
-                </div>
-
-            </section>
-
-        <?php else:?>
-
+            <?php else:?>
+                
             <section class="flex flex-col space-y-2 p-2">
                 <h2 class="text-white text-xl font-bold">Public location</h2>
                 <div class="h8 bg-blue-300/50 flex justify-between p-4 rounded-md">
                     <span class="text-md font-bold">Nome</span>
                     <button class="aspect-square h-6 bg-red-500/25">x</button>
                 </div>
-
+                
             </section>
-        
-        <?php endif;?>
-        </div>
+            
+            <?php endif;?>
+        </aside>
     </div>
+    
     <!-- template elements for javascript use -->
-    <template id="location_entry_template">
+
+    <!-- public location entry -->
+    <template id="public_location_entry_template">
+        <div id= class="h8 bg-white flex justify-between p-3 rounded-md">
+            <div class="flex space-x-1 items-center">
+                <span id="template_public_location_name" class="text-md font-semibold"></span>
+            </div>
+        </div>
+    </template>
+
+    <!-- private location entry -->
+    <template id="private_location_entry_template">
         <div class="h8 bg-white flex justify-between p-3 rounded-md">
             <div class="flex space-x-1 items-center">
                 <button id="template_toggle_publicity_button" class="aspect-square rounded-sm grid place-content-center">
                 </button>
-                <span id="template_location_name" class="text-md font-semibold"></span>
+                <span id="template_private_location_name" class="text-md font-semibold"></span>
             </div>
             <div class="flex space-x-2">
                 <button id="template_edit_button" class="aspect-square h-6 bg-red-500/25 rounded-sm grid place-content-center">
@@ -143,6 +142,7 @@ session_start();
         </div>
     </template>
 
+    <!-- show icon -->
     <template id="show_icon_template">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
@@ -150,6 +150,7 @@ session_start();
         </svg>
     </template>
     
+    <!-- show icon -->
     <template id="hide_icon_template">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
