@@ -6,8 +6,6 @@ include_once("../utils.php");
 include_once("../database/db.php");
 
 
-// json_response(401, ["error" => "Invalid credentials"]);
-
 if(isset($_SESSION["authenticated"])) {
     // public and private locations 
     

@@ -50,7 +50,11 @@ session_start();
                     <div class="flex flex-col">
                         <label for="location_name_input" class="text-white text-md font-semibold">Name</label>
                         <input type="text" name="location_name" id="location_name_input" class="text-md font-semibold rounded-sm mt-1 pl-1 border border-transparent focus:ring focus:ring-red-500 focus:outline-0">
-                        <button class="mt-4 p-2 text-white text-md font-semibold bg-red-500 rounded-md">Add location</button>
+                        <div class="flex mt-1 items-center">
+                            <label for="location_name_input" class="text-white text-md font-semibold">Public</label>
+                            <input type="checkbox" name="location_publicity" id="location_publicity_input" class="mx-auto">
+                        </div>
+                        <button id="add_location_button" class="mt-4 p-2 text-white text-md font-semibold bg-red-500  disabled:bg-red-400 rounded-md disabled:cursor-no-drop" disabled>Add location</button>
                     </div>
                 </section>
 

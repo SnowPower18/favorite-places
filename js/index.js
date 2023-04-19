@@ -1,10 +1,16 @@
 // Request libraries when needed, not in the script tag.
+// google api libraries
 const { Map } = await google.maps.importLibrary("maps");
 const { Marker } = await google.maps.importLibrary("marker");
 
+// various variables
 let map;
 let markers = [];
 let locations;
+let newLocCoords;
+let placeholderMarker;
+
+// dom elements
 const publicLocationEntry = document.querySelector(
   "#public_location_entry_template"
 ).firstElementChild;
@@ -21,7 +27,6 @@ const authenticated = document.querySelector("#authenticated") ? true : false;
 const pubLocationsList = document.querySelector("#public_locations_list");
 const privLocationsList = document.querySelector("#private_locations_list");
 
-// initMap is now async
 async function initMap() {
   await getLocations();
 
@@ -71,9 +76,56 @@ async function initMap() {
   } else {
     for (let location of locations) addMarker(location);
   }
+
+  map.addListener("click", mapClickHandler);
+  document
+    .querySelector("#add_location_button")
+    .addEventListener("click", addLocation);
+}
+initMap();
+
+function mapClickHandler(e) {
+  // if not defined create marker
+  placeholderMarker ||= new Marker({ label: "+" });
+
+  placeholderMarker.setMap(map);
+  placeholderMarker.setPosition(e.latLng);
+
+  document.querySelector("#add_location_button").removeAttribute("disabled");
 }
 
-initMap();
+async function addLocation() {
+  let nameInput = document.querySelector("#location_name_input");
+  let publicityInput = document.querySelector("#location_publicity_input");
+
+  if (placeholderMarker == null || nameInput.value === "") return;
+
+  let data = new FormData();
+  data.append("name", nameInput.value);
+  data.append("lat", placeholderMarker.position.lat());
+  data.append("lng", placeholderMarker.position.lng());
+  // append only if checked
+  publicityInput.checked && data.append("public", "true");
+
+  let res = await fetch("./api/createLocation.php", {
+    method: "POST",
+    body: data
+  });
+
+  if (res.ok) {
+    //reset inputs and marker
+    let addButton = document.querySelector("#add_location_button");
+    addButton.setAttribute("disabled", "");
+    nameInput.value = "";
+    publicityInput.checked = false;
+    placeholderMarker.setMap(null);
+
+    // extract location from returned object
+    let { location } = await res.json();
+    addMarker(location);
+    // privLocationsList.appendChild(createLocationEntry(location));
+  }
+}
 
 async function getLocations() {
   let res = await fetch("./api/getLocations.php", {
@@ -105,7 +157,8 @@ function addMarker(location) {
   });
 }
 
-function createLocationEntry() {
+// creates a copy of the entry_location template and returns it
+function createLocationEntry(location) {
   if (authenticated) {
   }
 }
@@ -115,7 +168,6 @@ function togglePublicList() {
     "#public_locations_section"
   );
 
-  //if it's collapsed
   pubLocationsSection.classList.toggle("grow");
   pubLocationsSection.classList.toggle("shrink");
   pubLocationsSection.classList.toggle("basis-auto");
