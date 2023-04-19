@@ -18,6 +18,8 @@ const hideIcon = document.querySelector(
   "#hide_icon_template"
 ).firstElementChild;
 const authenticated = document.querySelector("#authenticated") ? true : false;
+const pubLocationsList = document.querySelector("#public_locations_list");
+const privLocationsList = document.querySelector("#private_locations_list");
 
 // initMap is now async
 async function initMap() {
@@ -108,8 +110,41 @@ function createLocationEntry() {
   }
 }
 
-function collapsePublicList() {}
+function togglePublicList() {
+  const pubLocationsSection = document.querySelector(
+    "#public_locations_section"
+  );
 
-function collapsePrivateList() {}
+  //if it's collapsed
+  pubLocationsSection.classList.toggle("grow");
+  pubLocationsSection.classList.toggle("shrink");
+  pubLocationsSection.classList.toggle("basis-auto");
+  pubLocationsSection.classList.toggle("h-0");
+  pubLocationsList.classList.toggle("hidden");
+  document
+    .querySelector("#toggle_public_locations")
+    .classList.toggle("rotate-180");
+}
 
-function collapseAccordion(e) {}
+document
+  .querySelector("#toggle_public_locations")
+  .addEventListener("click", togglePublicList);
+
+function togglePrivateList() {
+  const privLocationsSection = document.querySelector(
+    "#private_locations_section"
+  );
+
+  privLocationsSection.classList.toggle("grow");
+  privLocationsSection.classList.toggle("shrink");
+  privLocationsSection.classList.toggle("basis-auto");
+  privLocationsSection.classList.toggle("h-0");
+  privLocationsList.classList.toggle("hidden");
+  document
+    .querySelector("#toggle_private_locations")
+    .classList.toggle("rotate-180");
+}
+
+document
+  .querySelector("#toggle_private_locations")
+  .addEventListener("click", togglePrivateList);

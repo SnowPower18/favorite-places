@@ -32,10 +32,10 @@ session_start();
             <?php if (isset($_SESSION["authenticated"])):?>
                 <div class="space-x-2">
                     <span class="text-white font-semibold">Logged in as <?= $_SESSION["username"]?></span>
-                    <a href="./logout.php" class="px-2 py-1 text-lg text-white font-semibold border-2 rounded-lg focus:outline-0 focus:border-white">Log out</a>
+                    <a href="./logout.php" class="px-2 py-1 text-lg text-white font-semibold border-2 rounded-lg focus:outline-0 focus:ring-2 focus:ring-white/50 hover:ring-2 hover:ring-white/50">Log out</a>
                 </div>
             <?php else:?>
-                <a href="./signin" class="px-2 py-1 text-lg text-white font-semibold border-2 rounded-lg focus:outline-0 focus:border-white">Login</a>
+                <a href="./signin" class="px-2 py-1 text-lg text-white font-semibold border-2 rounded-lg focus:outline-0 focus:ring-2 focus:ring-white hover:ring-2 hover:ring-white">Login</a>
             <?php endif;?>
         </div>
         <div class="h-1 bg-red-700"></div>
@@ -58,8 +58,15 @@ session_start();
 
                 <!-- in order to collapse one menu, remove grow, shrink, basis-auto, h-0 class and add to locations_list hidden class -->
                 <!-- private locations -->
-                <section class="flex flex-col space-y-2 p-2 pr-0 grow shrink basis-auto h-0">
-                    <h2 class="text-white text-xl font-bold">Saved locations</h2>
+                <section id="private_locations_section" class="flex flex-col space-y-2 p-2 pr-0 grow shrink basis-auto h-0">
+                    <div class="flex justify-between items-center mr-2">
+                        <h2 class="text-white text-xl font-bold">Saved Locations</h2>
+                        <button id="toggle_private_locations" class="transition-transform duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6 text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                    </div>
 
                     <div id="private_locations_list" class="flex flex-col space-y-2 pr-2 overflow-y-auto">
                         <div class="h8 bg-white flex justify-between p-3 rounded-md">
@@ -86,9 +93,15 @@ session_start();
                 </section>
 
                 <!-- public locations -->
-                <section class="flex flex-col space-y-2 p-2  pr-0 grow shrink basis-auto h-0">
-                    <h2 class="text-white text-xl font-bold">Public locations</h2>
-
+                <section id="public_locations_section" class="flex flex-col space-y-2 p-2  pr-0 grow shrink basis-auto h-0">
+                    <div class="flex justify-between items-center mr-2">
+                        <h2 class="text-white text-xl font-bold">Public Locations</h2>
+                        <button id="toggle_public_locations" class="transition-transform duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6 text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                    </div>
                     <div id="public_locations_list" class="flex flex-col space-y-2 pr-2 overflow-y-auto">
                         <div class="h8 bg-white flex justify-between p-3 rounded-md">
                             <div class="flex space-x-1 items-center">
