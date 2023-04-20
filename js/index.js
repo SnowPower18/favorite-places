@@ -7,7 +7,6 @@ const { Marker } = await google.maps.importLibrary("marker");
 let map;
 let markers = [];
 let locations;
-let newLocCoords;
 let placeholderMarker;
 
 // dom elements
@@ -23,9 +22,9 @@ const showIcon = document.querySelector(
 const hideIcon = document.querySelector(
   "#hide_icon_template"
 ).firstElementChild;
-const authenticated = document.querySelector("#authenticated") ? true : false;
 const pubLocationsList = document.querySelector("#public_locations_list");
 const privLocationsList = document.querySelector("#private_locations_list");
+const authenticated = document.querySelector("#authenticated") ? true : false;
 
 async function initMap() {
   await getLocations();
@@ -64,23 +63,29 @@ async function initMap() {
     lng: Number(randomLocation.lng)
   };
 
-  // Short namespaces can be used.
   map = new Map(document.getElementById("map"), {
     center: startLocation,
     zoom: startingZoom
   });
 
   if (authenticated) {
-    for (let location of locations.publicLocations) addMarker(location);
-    for (let location of locations.privateLocations) addMarker(location);
+    for (let location of locations.publicLocations) {
+      addMarker(location);
+    }
+    for (let location of locations.privateLocations) {
+      addMarker(location);
+      privLocationsList.appendChild(createPrivateLocationEntry(location));
+    }
   } else {
     for (let location of locations) addMarker(location);
   }
 
-  map.addListener("click", mapClickHandler);
-  document
-    .querySelector("#add_location_button")
-    .addEventListener("click", addLocation);
+  if (authenticated) {
+    map.addListener("click", mapClickHandler);
+    document
+      .querySelector("#add_location_button")
+      .addEventListener("click", addLocation);
+  }
 }
 initMap();
 
@@ -123,7 +128,7 @@ async function addLocation() {
     // extract location from returned object
     let { location } = await res.json();
     addMarker(location);
-    // privLocationsList.appendChild(createLocationEntry(location));
+    privLocationsList.appendChild(createPrivateLocationEntry(location));
   }
 }
 
@@ -158,10 +163,26 @@ function addMarker(location) {
 }
 
 // creates a copy of the entry_location template and returns it
-function createLocationEntry(location) {
-  if (authenticated) {
-  }
+function createPrivateLocationEntry(location) {
+  let clone = privateLocationEntry.cloneNode(true);
+  let publicButton = clone.querySelector("#template_toggle_publicity_button");
+  let editButton = clone.querySelector("#template_edit_button");
+  let deleteButton = clone.querySelector("#template_delete_button");
+  clone.id = `entry-${location.location_id}`;
+  clone.querySelector("#template_private_location_name").textContent =
+    location.name;
+  publicButton.id = "";
+  publicButton.addEventListener("click", () => changeVisibility(location));
+
+  editButton.id = "";
+  editButton.addEventListener("click", () => console.log("TODO"));
+
+  deleteButton.id = "";
+  deleteButton.addEventListener("click", () => deleteLocation(location));
+  return clone;
 }
+
+function createPublicLocationEntry(location) {}
 
 function togglePublicList() {
   const pubLocationsSection = document.querySelector(
@@ -196,7 +217,8 @@ function togglePrivateList() {
     .querySelector("#toggle_private_locations")
     .classList.toggle("rotate-180");
 }
-
-document
-  .querySelector("#toggle_private_locations")
-  .addEventListener("click", togglePrivateList);
+if (authenticated) {
+  document
+    .querySelector("#toggle_private_locations")
+    .addEventListener("click", togglePrivateList);
+}
