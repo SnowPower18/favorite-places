@@ -74,10 +74,11 @@ session_start();
 
                     <div id="private_locations_list" class="flex flex-col space-y-2 pr-2 overflow-y-auto">
                         
+                        
                     </div>
                 </section>
-
-                <!-- public locations -->
+                    
+                    <!-- public locations -->
                 <section id="public_locations_section" class="flex flex-col space-y-2 p-2  pr-0 grow shrink basis-auto h-0">
                     <div class="flex justify-between items-center mr-2">
                         <h2 class="text-white text-xl font-bold">Public Locations</h2>
@@ -87,9 +88,11 @@ session_start();
                             </svg>
                         </button>
                     </div>
+
                     <div id="public_locations_list" class="flex flex-col space-y-2 pr-2 overflow-y-auto">
                         
                     </div>
+                    
                 </section>
 
             <?php else:?>
@@ -116,10 +119,9 @@ session_start();
 
     <!-- public location entry -->
     <template id="public_location_entry_template">
-        <div id= class="h8 bg-white flex justify-between p-3 rounded-md">
-            <div class="flex space-x-1 items-center">
-                <span id="template_public_location_name" class="text-md font-semibold"></span>
-            </div>
+        <div class="h8 bg-white flex justify-between p-3 rounded-md">
+            <span id="template_public_location_name" class="text-md font-semibold"></span>
+            <span id="template_public_location_author" class="text-md font-semibold"></span>
         </div>
     </template>
 
@@ -132,7 +134,7 @@ session_start();
                 <span id="template_private_location_name" class="text-md font-semibold"></span>
             </div>
             <div class="flex space-x-2">
-                <button id="template_edit_button" class="aspect-square h-6 bg-red-500/25 rounded-sm grid place-content-center">
+                <button id="template_edit_button" class="aspect-square h-6 bg-slate-500/25 rounded-sm grid place-content-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                     </svg>

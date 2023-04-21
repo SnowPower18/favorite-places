@@ -12,16 +12,14 @@ let placeholderMarker;
 // dom elements
 const publicLocationEntry = document.querySelector(
   "#public_location_entry_template"
-).firstElementChild;
+).content.firstElementChild;
 const privateLocationEntry = document.querySelector(
   "#private_location_entry_template"
-).firstElementChild;
-const showIcon = document.querySelector(
-  "#show_icon_template"
-).firstElementChild;
-const hideIcon = document.querySelector(
-  "#hide_icon_template"
-).firstElementChild;
+).content.firstElementChild;
+const showIcon = document.querySelector("#show_icon_template").content
+  .firstElementChild;
+const hideIcon = document.querySelector("#hide_icon_template").content
+  .firstElementChild;
 const pubLocationsList = document.querySelector("#public_locations_list");
 const privLocationsList = document.querySelector("#private_locations_list");
 const authenticated = document.querySelector("#authenticated") ? true : false;
@@ -71,6 +69,7 @@ async function initMap() {
   if (authenticated) {
     for (let location of locations.publicLocations) {
       addMarker(location);
+      pubLocationsList.appendChild(createPublicLocationEntry(location));
     }
     for (let location of locations.privateLocations) {
       addMarker(location);
@@ -150,7 +149,7 @@ async function getLocations() {
 
 function addMarker(location) {
   markers.push({
-    id: location.id,
+    id: location.location_id,
     marker: new Marker({
       position: {
         lat: Number(location.lat),
@@ -160,6 +159,8 @@ function addMarker(location) {
       title: location.name
     })
   });
+
+  console.log(markers);
 }
 
 // creates a copy of the entry_location template and returns it
@@ -182,7 +183,33 @@ function createPrivateLocationEntry(location) {
   return clone;
 }
 
-function createPublicLocationEntry(location) {}
+function createPublicLocationEntry(location) {
+  let clone = publicLocationEntry.cloneNode(true);
+  let nameSpan = clone.querySelector("#template_public_location_name");
+  let authorSpan = clone.querySelector("#template_public_location_author");
+
+  nameSpan.id = "";
+  nameSpan.textContent = location.name;
+  authorSpan.id = "";
+  authorSpan.textContent = location.username;
+
+  return clone;
+}
+
+async function deleteLocation(location) {
+  let res = await fetch(
+    `./api/deleteLocation.php?location_id=${location.location_id}`
+  );
+
+  if (!res.ok) return;
+  // removing marker from map
+  let { marker } = markers.find((val) => val.id === location.location_id);
+  marker.setMap(null);
+  // deleting marker by removing it from the array
+  markers = markers.filter((val) => val.id !== location.location_id);
+
+  document.querySelector(`#entry-${location.location_id}`).remove();
+}
 
 function togglePublicList() {
   const pubLocationsSection = document.querySelector(

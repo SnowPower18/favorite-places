@@ -3,11 +3,12 @@
 session_start();
 
 include_once("../utils.php");
-include_once("../database/db.php");
 
 if(!isset($_SESSION["authenticated"])) {
     json_response(401, ["error" => "Invalid credentials"]);
 }
+
+include_once("../database/db.php");
 
 if(!isset($_SESSION["authenticated"]) || !isset($_POST["name"]) ||!isset($_POST["lat"])  ||!isset($_POST["lng"])) {
     json_response(400, ["error" => "Bad request"]);
