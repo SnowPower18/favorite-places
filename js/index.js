@@ -76,7 +76,10 @@ async function initMap() {
       privLocationsList.appendChild(createPrivateLocationEntry(location));
     }
   } else {
-    for (let location of locations) addMarker(location);
+    for (let location of locations) {
+      addMarker(location);
+      pubLocationsList.appendChild(createPublicLocationEntry(location));
+    }
   }
 
   if (authenticated) {
