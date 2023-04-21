@@ -159,8 +159,6 @@ function addMarker(location) {
       title: location.name
     })
   });
-
-  console.log(markers);
 }
 
 // creates a copy of the entry_location template and returns it
@@ -180,6 +178,10 @@ function createPrivateLocationEntry(location) {
 
   deleteButton.id = "";
   deleteButton.addEventListener("click", () => deleteLocation(location));
+
+  // add panTo click event
+  clone.addEventListener("click", () => panToMarker(location.location_id));
+
   return clone;
 }
 
@@ -188,10 +190,15 @@ function createPublicLocationEntry(location) {
   let nameSpan = clone.querySelector("#template_public_location_name");
   let authorSpan = clone.querySelector("#template_public_location_author");
 
+  clone.id = `entry-${location.location_id}`;
+
   nameSpan.id = "";
   nameSpan.textContent = location.name;
   authorSpan.id = "";
   authorSpan.textContent = location.username;
+
+  // add panTo click event
+  clone.addEventListener("click", () => panToMarker(location.location_id));
 
   return clone;
 }
@@ -209,6 +216,11 @@ async function deleteLocation(location) {
   markers = markers.filter((val) => val.id !== location.location_id);
 
   document.querySelector(`#entry-${location.location_id}`).remove();
+}
+
+function panToMarker(id) {
+  let { marker } = markers.find((val) => val.id === id);
+  map.panTo(marker.position);
 }
 
 function togglePublicList() {

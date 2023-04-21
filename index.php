@@ -119,9 +119,9 @@ session_start();
 
     <!-- public location entry -->
     <template id="public_location_entry_template">
-        <div class="h8 bg-white flex justify-between p-3 rounded-md">
+        <div class="h8 bg-white flex justify-between items-center p-3 rounded-md">
             <span id="template_public_location_name" class="text-md font-semibold"></span>
-            <span id="template_public_location_author" class="text-md font-semibold"></span>
+            <span id="template_public_location_author" class="text-sm font-semibold text-slate-500"></span>
         </div>
     </template>
 
